@@ -80,7 +80,7 @@ function parseSource(data) {
 function initLeaflet() {
   // your access token here
   L.mapbox.accessToken = 'pk.eyJ1IjoiY3Jvb2tvb2tvbyIsImEiOiJoSWZlQWhnIn0.BZsl4HSikEgkLjem-3Y8CQ';
-  map = L.mapbox.map('map', 'mapbox.run-bike-hike').setView([20, 0], 2);
+  map = L.mapbox.map('map', 'mapbox.streets').setView([20, 0], 2);
 
   function onMapClick(e) {
     // leaflet needs this function, no need to do anything here
