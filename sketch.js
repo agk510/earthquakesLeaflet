@@ -9,6 +9,7 @@ var mags = []; // array of magnitudes
 var slider; // UI for setting minimum magnitude
 var magnitude; // div for storing min magnitude from slider 
 
+
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight); // full window p5 canvas
   canvas.parent('map'); // make p5 and leaflet use the same canvas (and z-index)
@@ -61,10 +62,10 @@ function parseSource(data) {
     mags[i] = row[4];
     
    	var kongIcon = L.icon({
-    iconUrl: 'kingkongattack.jpeg',
+    iconUrl: 'kingkongattack.png',
     //shadowUrl: 'leaf-shadow.png',
 
-    iconSize:     [50, 60], // size of the icon
+    iconSize:     [120, 80], // size of the icon
     //shadowSize:   [50, 64], // size of the shadow
     iconAnchor:   [0, 0], // point of the icon which will correspond to marker's location
     //shadowAnchor: [4, 62],  // the same for the shadow
@@ -82,12 +83,21 @@ function parseSource(data) {
     //   fillOpacity: 0.8,
     //   fillColor: setColor(row[4]),
     // });
+	
+	// var roar = loadSound(KongRoar.mp3);
+ //    roar.setVolume(0.5);
 
     var place = row[13].substr(1);
 
     quakes[i].addTo(map).bindPopup("<b>" + 
     row[4] + "</b> magnitude, " + place); 
 
+    // play roar sound when popup clicked
+    // map.on('popupopen', function roar {
+    // 	var roar = loadSound(KongRoar.mp3);
+    // 	roar.setVolume(0.5);
+    // 	roar.play();
+    // });
     // quakes[i].addTo(map).setRadius(mags[i]).bindPopup("<b>" + 
     // row[4] + "</b> magnitude, " + place); // make new labeled markers at lat, lon, 
   }
