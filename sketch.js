@@ -92,7 +92,7 @@ function parseSource(data) {
     // });
 	
 	// load roar sound for clicking popup
-	var roar = new p5.SoundFile('KongRoar.mp3');
+	var roar = loadSound('KongRoar.mp3');
 	roar.setVolume(0.5);
 
     var place = row[13].substr(1);
