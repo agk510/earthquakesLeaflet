@@ -59,20 +59,37 @@ function parseSource(data) {
   for (var i = 1; i < data.length; i++) {
     var row = split(data[i], ","); // split every row by the comma
     mags[i] = row[4];
-    // create custom leaflet marker
-    quakes[i] = L.circleMarker([row[1], row[2]], {
-      stroke: true,
-      color: '#232323',
-      weight: 1,
-      opacity: 0.3,
-      fillOpacity: 0.8,
-      fillColor: setColor(row[4]),
-    });
+    
+   	var kongIcon = L.icon({
+    iconUrl: 'kingkongattack.jpeg',
+    //shadowUrl: 'leaf-shadow.png',
+
+    iconSize:     [50, 60], // size of the icon
+    //shadowSize:   [50, 64], // size of the shadow
+    iconAnchor:   [0, 0], // point of the icon which will correspond to marker's location
+    //shadowAnchor: [4, 62],  // the same for the shadow
+    // popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+	});
+
+   	quakes[i] = L.marker([row[1], row[2]], {icon: kongIcon}).addTo(map);
+
+    // // create custom leaflet marker
+    // quakes[i] = L.circleMarker([row[1], row[2]], {
+    //   stroke: true,
+    //   color: '#232323',
+    //   weight: 1,
+    //   opacity: 0.3,
+    //   fillOpacity: 0.8,
+    //   fillColor: setColor(row[4]),
+    // });
 
     var place = row[13].substr(1);
 
-    quakes[i].addTo(map).setRadius(mags[i]).bindPopup("<b>" + 
-    row[4] + "</b> magnitude, " + place); // make new labeled markers at lat, lon, 
+    quakes[i].addTo(map).bindPopup("<b>" + 
+    row[4] + "</b> magnitude, " + place); 
+
+    // quakes[i].addTo(map).setRadius(mags[i]).bindPopup("<b>" + 
+    // row[4] + "</b> magnitude, " + place); // make new labeled markers at lat, lon, 
   }
 }
 
@@ -80,7 +97,7 @@ function parseSource(data) {
 function initLeaflet() {
   // your access token here
   L.mapbox.accessToken = 'pk.eyJ1IjoiY3Jvb2tvb2tvbyIsImEiOiJoSWZlQWhnIn0.BZsl4HSikEgkLjem-3Y8CQ';
-  map = L.mapbox.map('map', 'mapbox.streets').setView([20, 0], 2);
+  map = L.mapbox.map('map', 'mapbox.comic').setView([20, 0], 3);
 
   function onMapClick(e) {
     // leaflet needs this function, no need to do anything here
