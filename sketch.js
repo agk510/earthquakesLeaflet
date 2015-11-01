@@ -8,9 +8,15 @@ var quakes = []; // array of earthquakes
 var mags = []; // array of magnitudes
 var slider; // UI for setting minimum magnitude
 var magnitude; // div for storing min magnitude from slider 
+//var roar;
 
+// function preload() {
+// 	roar = loadSound('KongRoar.mp3'); // load 'roar' sound effect for popups
+// }
 
 function setup() {
+  //roar.setVolume(0.5); // set roar volume
+
   canvas = createCanvas(windowWidth, windowHeight); // full window p5 canvas
   canvas.parent('map'); // make p5 and leaflet use the same canvas (and z-index)
   initLeaflet(); // load leaflet functions and creat map and defined view
@@ -39,12 +45,12 @@ function setup() {
 
 function draw() {
   // hide and show individual quakes by checking against slider threshold
-  for (var i = 1; i < mags.length; i++) {
-    if (mags[i] < slider.value())
-      quakes[i].setRadius(0);
-    else
-      quakes[i].setRadius(mags[i]);
-  }
+  // for (var i = 1; i < mags.length; i++) {
+  //   if (mags[i] < slider.value())
+  //     quakes[i].setIconSize(0,0); // WHAT IS THE FUNCTION TO RESET THE ICON SIZE?
+  //   else
+  //     quakes[i].setSize(mags[i], mags[i]); // WHAT IS THE FUNCTION TO RESET THE ICON SIZE?
+  // }
 
   magnitude.html("Magnitude > " + slider.value() + " RS");
 }
@@ -56,16 +62,17 @@ function setColor(_magnitude) {
   return interpolatedColor;
 }
 
-function parseSource(data) {
+function parseSource(data) {  
   for (var i = 1; i < data.length; i++) {
     var row = split(data[i], ","); // split every row by the comma
     mags[i] = row[4];
     
+   	// create custom icon image
    	var kongIcon = L.icon({
     iconUrl: 'kingkongattack.png',
     //shadowUrl: 'leaf-shadow.png',
 
-    iconSize:     [120, 80], // size of the icon
+    iconSize:     [mags[i], mags[i]], // size of the icon
     //shadowSize:   [50, 64], // size of the shadow
     iconAnchor:   [0, 0], // point of the icon which will correspond to marker's location
     //shadowAnchor: [4, 62],  // the same for the shadow
@@ -84,20 +91,15 @@ function parseSource(data) {
     //   fillColor: setColor(row[4]),
     // });
 	
-	// var roar = loadSound(KongRoar.mp3);
- //    roar.setVolume(0.5);
+	// load roar sound for clicking popup
+	var roar = new p5.SoundFile('KongRoar.mp3');
+	roar.setVolume(0.5);
 
     var place = row[13].substr(1);
 
     quakes[i].addTo(map).bindPopup("<b>" + 
-    row[4] + "</b> magnitude, " + place); 
+    row[4] + "</b> magnitude, " + place + roar.play()); 
 
-    // play roar sound when popup clicked
-    // map.on('popupopen', function roar {
-    // 	var roar = loadSound(KongRoar.mp3);
-    // 	roar.setVolume(0.5);
-    // 	roar.play();
-    // });
     // quakes[i].addTo(map).setRadius(mags[i]).bindPopup("<b>" + 
     // row[4] + "</b> magnitude, " + place); // make new labeled markers at lat, lon, 
   }
