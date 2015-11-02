@@ -8,8 +8,21 @@ var quakes = []; // array of earthquakes
 var mags = []; // array of magnitudes
 var slider; // UI for setting minimum magnitude
 var magnitude; // div for storing min magnitude from slider 
-//var roar;
+// var roar; // sound effect
 
+var iconX; // default icon size
+var iconY;
+var kongIcon = L.icon({
+    iconUrl: 'kingkongattack.png',
+    //shadowUrl: 'leaf-shadow.png',
+
+    iconSize: [iconX, iconY],
+    // iconSize:     [mags[i], mags[i]], // size of the icon
+    //shadowSize:   [50, 64], // size of the shadow
+    iconAnchor:   [0, 0], // point of the icon which will correspond to marker's location
+    //shadowAnchor: [4, 62],  // the same for the shadow
+    // popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+  });
 // function preload() {
 // 	roar = loadSound('roar.mp3'); // load 'roar' sound effect for popups
 // }
@@ -45,13 +58,17 @@ function setup() {
 }
 
 function draw() {
-  // hide and show individual quakes by checking against slider threshold
-  // for (var i = 1; i < mags.length; i++) {
-  //   if (mags[i] < slider.value())
-  //     quakes[i].setIconSize(0,0); // WHAT IS THE FUNCTION TO RESET THE ICON SIZE?
-  //   else
-  //     quakes[i].setSize(mags[i], mags[i]); // WHAT IS THE FUNCTION TO RESET THE ICON SIZE?
-  // }
+  //hide and show individual quakes by checking against slider threshold
+  for (var i = 1; i < mags.length; i++) {
+    if (mags[i] < slider.value())
+      kongIcon.iconSize = [0,0];
+      // quakes[i].setIconSize(0,0); // WHAT IS THE FUNCTION TO RESET THE ICON SIZE?
+    else
+      iconX = lerp(30, 120, mags[i]/10);
+      iconY = lerp(20, 80, mags[i]/10);
+      kongIcon.iconSize = [iconX,iconY];
+      // quakes[i].setSize(mags[i], mags[i]); // WHAT IS THE FUNCTION TO RESET THE ICON SIZE?
+  }
 
   magnitude.html("Magnitude > " + slider.value() + " RS");
 }
@@ -69,16 +86,17 @@ function parseSource(data) {
     mags[i] = row[4];
     
    	// create custom icon image
-   	var kongIcon = L.icon({
-    iconUrl: 'kingkongattack.png',
-    //shadowUrl: 'leaf-shadow.png',
+ //   	kongIcon = L.icon({
+ //    iconUrl: 'kingkongattack.png',
+ //    //shadowUrl: 'leaf-shadow.png',
 
-    iconSize:     [mags[i], mags[i]], // size of the icon
-    //shadowSize:   [50, 64], // size of the shadow
-    iconAnchor:   [0, 0], // point of the icon which will correspond to marker's location
-    //shadowAnchor: [4, 62],  // the same for the shadow
-    // popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-	});
+ //    iconSize: [iconX, iconY],
+ //    // iconSize:     [mags[i], mags[i]], // size of the icon
+ //    //shadowSize:   [50, 64], // size of the shadow
+ //    iconAnchor:   [0, 0], // point of the icon which will correspond to marker's location
+ //    //shadowAnchor: [4, 62],  // the same for the shadow
+ //    // popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+	// });
 
    	quakes[i] = L.marker([row[1], row[2]], {icon: kongIcon}).addTo(map);
 
@@ -98,9 +116,8 @@ function parseSource(data) {
 
     var place = row[13].substr(1);
 
-    quakes[i].addTo(map).bindPopup("<b>" + 
-    row[4] + "</b> magnitude, " + place); 
-
+    quakes[i].addTo(map).bindPopup("<b>" + row[4] + "</b> magnitude, " + place); 
+    // quakes[i].addTo(map).bindPopup(roar.play());
     // quakes[i].addTo(map).setRadius(mags[i]).bindPopup("<b>" + 
     // row[4] + "</b> magnitude, " + place); // make new labeled markers at lat, lon, 
   }
