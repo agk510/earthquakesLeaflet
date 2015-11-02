@@ -8,14 +8,14 @@ var quakes = []; // array of earthquakes
 var mags = []; // array of magnitudes
 var slider; // UI for setting minimum magnitude
 var magnitude; // div for storing min magnitude from slider 
-//var roar;
+var roar;
 
-// function preload() {
-// 	roar = loadSound('KongRoar.mp3'); // load 'roar' sound effect for popups
-// }
+function preload() {
+	roar = loadSound('roar.mp3'); // load 'roar' sound effect for popups
+}
 
 function setup() {
-  //roar.setVolume(0.5); // set roar volume
+  roar.setVolume(0.5); // set roar volume
 
   canvas = createCanvas(windowWidth, windowHeight); // full window p5 canvas
   canvas.parent('map'); // make p5 and leaflet use the same canvas (and z-index)
@@ -92,8 +92,8 @@ function parseSource(data) {
     // });
 	
 	// load roar sound for clicking popup
-	var roar = loadSound('roar.mp3');
-	roar.setVolume(0.5);
+	// var roar = loadSound('roar.mp3');
+	// roar.setVolume(0.5);
 
     var place = row[13].substr(1);
 
