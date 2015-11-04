@@ -23,6 +23,7 @@ var kongIcon = L.icon({
     //shadowAnchor: [4, 62],  // the same for the shadow
     // popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
   });
+
 // function preload() {
 // 	roar = loadSound('roar.mp3'); // load 'roar' sound effect for popups
 // }
@@ -111,12 +112,13 @@ function parseSource(data) {
     // });
 	
 	// load roar sound for clicking popup
-	// var roar = loadSound('roar.mp3');
-	// roar.setVolume(0.5);
+	var roar = loadSound('roar.mp3');
+	roar.setVolume(0.5);
 
     var place = row[13].substr(1);
 
-    quakes[i].addTo(map).bindPopup("<b>" + row[4] + "</b> magnitude, " + place); 
+    quakes[i].on('click', function() { roar.play(); }).addTo(map).bindPopup("<b>" + 
+    row[4] + "</b> magnitude, " + place ); 
     // quakes[i].addTo(map).bindPopup(roar.play());
     // quakes[i].addTo(map).setRadius(mags[i]).bindPopup("<b>" + 
     // row[4] + "</b> magnitude, " + place); // make new labeled markers at lat, lon, 
