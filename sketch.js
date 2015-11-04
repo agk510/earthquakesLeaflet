@@ -8,29 +8,16 @@ var quakes = []; // array of earthquakes
 var mags = []; // array of magnitudes
 var slider; // UI for setting minimum magnitude
 var magnitude; // div for storing min magnitude from slider 
-// var roar; // sound effect
+var roar; // sound effect = 
 
-var iconX; // default icon size
-var iconY;
-var kongIcon = L.icon({
-    iconUrl: 'kingkongattack.png',
-    //shadowUrl: 'leaf-shadow.png',
-
-    iconSize: [iconX, iconY],
-    // iconSize:     [mags[i], mags[i]], // size of the icon
-    //shadowSize:   [50, 64], // size of the shadow
-    iconAnchor:   [0, 0], // point of the icon which will correspond to marker's location
-    //shadowAnchor: [4, 62],  // the same for the shadow
-    // popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-  });
-
-// function preload() {
-// 	roar = loadSound('roar.mp3'); // load 'roar' sound effect for popups
-// }
+function preload() {
+	roar = loadSound('roar.mp3'); // load 'roar' sound effect for popups
+  // roar.setVolume(0.5);
+}
 
 function setup() {
-  // soundFormats('mp3', 'ogg');
-  // roar.setVolume(0.5); // set roar volume
+  soundFormats('mp3', 'ogg');
+  roar.setVolume(0.5); // set roar volume
 
   canvas = createCanvas(windowWidth, windowHeight); // full window p5 canvas
   canvas.parent('map'); // make p5 and leaflet use the same canvas (and z-index)
@@ -48,9 +35,9 @@ function setup() {
   txt.position(0, 0);
 
   // UI slider
-  slider = createSlider(0, 10, 1);
-  slider.id("top");
-  slider.position(width-450, 25);
+  // slider = createSlider(0, 10, 1);
+  // slider.id("top");
+  // slider.position(width-450, 25);
 
   // slider numeric feedback
   magnitude = createDiv('Min magnitude: ' + slider.value());
@@ -60,26 +47,26 @@ function setup() {
 
 function draw() {
   //hide and show individual quakes by checking against slider threshold
-  for (var i = 1; i < mags.length; i++) {
-    if (mags[i] < slider.value())
-      kongIcon.iconSize = [0,0];
-      // quakes[i].setIconSize(0,0); // WHAT IS THE FUNCTION TO RESET THE ICON SIZE?
-    else
-      iconX = lerp(30, 120, mags[i]/10);
-      iconY = lerp(20, 80, mags[i]/10);
-      kongIcon.iconSize = [iconX,iconY];
-      // quakes[i].setSize(mags[i], mags[i]); // WHAT IS THE FUNCTION TO RESET THE ICON SIZE?
-  }
+  // for (var i = 1; i < mags.length; i++) {
+  //   if (mags[i] < slider.value())
+  //     kongIcon.iconSize = [0,0];
+  //     // quakes[i].setIconSize(0,0); // WHAT IS THE FUNCTION TO RESET THE ICON SIZE?
+  //   else
+  //     iconX = lerp(30, 120, mags[i]/10);
+  //     iconY = lerp(20, 80, mags[i]/10);
+  //     kongIcon.iconSize = [iconX,iconY];
+  //     // quakes[i].setSize(mags[i], mags[i]); // WHAT IS THE FUNCTION TO RESET THE ICON SIZE?
+  // }
 
-  magnitude.html("Magnitude > " + slider.value() + " RS");
+  // magnitude.html("Magnitude > " + slider.value() + " RS");
 }
 
-function setColor(_magnitude) {
-  var startColor = color(50, 50, 255);
-  var endColor = color(255, 50, 50);
-  var interpolatedColor = lerpColor(startColor, endColor, _magnitude / 10);
-  return interpolatedColor;
-}
+// function setColor(_magnitude) {
+//   var startColor = color(50, 50, 255);
+//   var endColor = color(255, 50, 50);
+//   var interpolatedColor = lerpColor(startColor, endColor, _magnitude / 10);
+//   return interpolatedColor;
+// }
 
 function parseSource(data) {  
   for (var i = 1; i < data.length; i++) {
@@ -99,7 +86,21 @@ function parseSource(data) {
  //    // popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
 	// });
 
-   	quakes[i] = L.marker([row[1], row[2]], {icon: kongIcon}).addTo(map);
+  var iconX = 120; // default icon size
+  var iconY = 60;
+  var myIcon = L.icon({
+      iconUrl: 'Godzilla.gif',
+      //shadowUrl: 'leaf-shadow.png',
+
+      iconSize: [iconX, iconY],
+      // iconSize:     [mags[i], mags[i]], // size of the icon
+      //shadowSize:   [50, 64], // size of the shadow
+      iconAnchor:   [0, 0], // point of the icon which will correspond to marker's location
+      //shadowAnchor: [4, 62],  // the same for the shadow
+      // popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+    });
+
+   	quakes[i] = L.marker([row[1], row[2]], {icon: myIcon}).addTo(map);
 
     // // create custom leaflet marker
     // quakes[i] = L.circleMarker([row[1], row[2]], {
@@ -112,8 +113,6 @@ function parseSource(data) {
     // });
 	
 	// load roar sound for clicking popup
-	var roar = loadSound('roar.mp3');
-	roar.setVolume(0.5);
 
     var place = row[13].substr(1);
 
