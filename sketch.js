@@ -6,7 +6,7 @@ var map; // global
 var canvas; // p5 canvas
 var quakes = []; // array of earthquakes 
 var mags = []; // array of magnitudes
-var slider; // UI for setting minimum magnitude
+// var slider; // UI for setting minimum magnitude
 var magnitude; // div for storing min magnitude from slider 
 var roar; // sound effect = 
 
@@ -40,9 +40,9 @@ function setup() {
   // slider.position(width-450, 25);
 
   // slider numeric feedback
-  magnitude = createDiv('Min magnitude: ' + slider.value());
-  magnitude.id("top");
-  magnitude.position(width - 250, 35);
+  // magnitude = createDiv('Min magnitude: ' + slider.value());
+  // magnitude.id("top");
+  // magnitude.position(width - 250, 35);
 }
 
 function draw() {
@@ -86,13 +86,13 @@ function parseSource(data) {
  //    // popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
 	// });
 
-  var iconX = 120; // default icon size
-  var iconY = 60;
-  var myIcon = L.icon({
+  // var iconX = 120; // default icon size
+  // var iconY = 60;
+    var myIcon = L.icon({
       iconUrl: 'Godzilla.gif',
       //shadowUrl: 'leaf-shadow.png',
 
-      iconSize: [iconX, iconY],
+      iconSize: [100, 80],
       // iconSize:     [mags[i], mags[i]], // size of the icon
       //shadowSize:   [50, 64], // size of the shadow
       iconAnchor:   [0, 0], // point of the icon which will correspond to marker's location
@@ -116,8 +116,8 @@ function parseSource(data) {
 
     var place = row[13].substr(1);
 
-    quakes[i].on('click', function() { roar.play(); }).addTo(map).bindPopup("<b>" + 
-    row[4] + "</b> magnitude, " + place ); 
+    quakes[i].on('click', function() { roar.play(); }).addTo(map).bindPopup("Magnitude: <b>" + 
+    row[4] + " RS</b>, Depth: <b>" + row[3] + "km</b><br>Location: <b>" + place + "</b></br"); 
     // quakes[i].addTo(map).bindPopup(roar.play());
     // quakes[i].addTo(map).setRadius(mags[i]).bindPopup("<b>" + 
     // row[4] + "</b> magnitude, " + place); // make new labeled markers at lat, lon, 
